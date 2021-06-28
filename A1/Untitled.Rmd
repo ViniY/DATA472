@@ -1,0 +1,21 @@
+---
+title: "DATA472_Assignment1"
+author: "Vincent Yu 300390526"
+date: "3/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(error = TRUE)
+```
+Q1. (3 Marks) Classify the following variables as categorical/numerical and further classify as logical, nominal, ordinal, binary, continuous or discrete. Give the R data type that corresponds to each.
+
+Age of a person
+Gender of a person
+Number of job applications made before employment
+Time between becoming unemployed and finding a new job
+Level of satisfaction with customer service (scale 1-10)
+Party voted for at the last election
+
+

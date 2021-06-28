@@ -1,0 +1,391 @@
+---
+title: "DATA472_Assignment1"
+author: "Vincent Yu 300390526"
+date: "3/18/2021"
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error = TRUE)
+```
+
+
+### Q1. (3 Marks) Classify the following variables as categorical/numerical and further classify as logical, nominal, ordinal, binary, continuous or discrete. Give the R data type that corresponds to each.\
+
+#### Age of a person :  Numerical, Continuous (as we can descibe the age of person with infinite number of decimal places) R data type: can use numeric or double 
+
+#### Gender of a person : Categorical, Nomial, R data type: character
+
+#### Number of job applications made before employment: Numerical, Discrete, R data type: integer 
+
+#### Time between becoming unemployed and finding a new job: Numerical, Continuous, R data type can be numeric or double 
+
+#### Level of satisfaction with customer service (scale 1-10): Categorical, Ordinal, R data type can be character
+
+#### Party voted for at the last election: Numerical, Continuous (if asking for like the percentage for each party get in the election) R data type can use double or numeric 
+
+
+### Q2. (4 Marks) [Note: for this question the file aaa.csv will not be available on the submission server. So you should set eval=FALSE in each R chunk, or the code will fail and your assignment won’t knit.]
+
+```{r Q2, echo=TRUE,error=TRUE,eval=FALSE}
+#Q2.a
+bbb <- read.csv(file = "aaa.csv") # Read csv file to a dataframe named bbb
+#Q2.b
+n<-ncol(bbb) # extract the number of columns in the dataframe
+#Q2.c
+bbb<-bbb[-c(n)] #Delete the last column 
+#Q2.d Copy the second column and add it to the dataframe
+temp <- bbb[,2]
+bbb <- cbind(bbb,temp)
+```
+
+### Q3. (2 Marks) Assuming x and y are vectors of length 3, explain the difference between the actions of the following four statements
+
+#### x=y, assign the value of y to x, after the instruction executed, x will hold the value of variable y, there is no change in y
+#### x==y, will compare the elements in the vector x and y, the elements are paired by index, and will return true if the elements in x and y at the same index are the same value, otherwise will be false
+#### x<-y, assign the value holds in y to x and there is no change in y, slightly different from "=", "<-" can be used everywhere. 
+
+#### x<(-y),element wise comparision, it will compare the the value of element in x to the negative value of element in y. For exmaple if x=c(1,2,3), y=c(1,-3,2) and it will return c(TRUE,FALSE,TRUE)
+### Q4. (2 Marks) When measuring angles values less than 0 or greater than 360 can be converted into the range [0,360].Write R code that takes the vector x of angles c(-45, -345, 610, 23, 705) and converts them into the correct angles in the range [0,360].
+
+```{r, echo=TRUE, eval=TRUE}
+#Q4
+x = c(-45, -345, 610, 23, 705)
+res = c()
+for (i in x) {
+  while(TRUE){
+    if(i<0 || i>360){
+      if(i<0){
+        i=i+360
+      }
+      else{
+        i=i-360
+      }
+    }
+    else{
+      break
+    }
+  }
+  res = c(res,i)
+}
+res
+
+```
+### Q5. (7 Marks) In each of the questions below, show any R output your code produces, in order to verify your answers. Write R code to define the following objects
+
+```{r, echo=TRUE}
+# Q5.a
+a <- array(c(22,13,-4,22),dim=c(4,1))
+b <- array(c(2,3,6,0),dim=c(2,2))
+c <- array(c(22,88),dim=c(2,1))
+d <- array(c(22,13,0,6),dim = c(4,1))
+
+#Q5.b
+print("result  for Q5.b : ")
+b[1,2] #Top right element
+
+#Q5.c
+q5c<-array(c(c,c), dim = c(2,2))
+print("result  for Q5.c : ")
+
+q5c
+
+#Q5.d
+allValues = c()
+checkValue <- function(x) { ## A function that will look through the vectors and return the values that less than 13 
+  res=c()
+  for (i in x) {
+    if(i<13){
+      res=c(res,i)
+    }
+  }
+  return(res)
+}
+res<-checkValue(a)
+print("result  for Q5.d : ")
+
+print("Here is the values in a that are less than 13")
+res
+
+# Q5.e
+val =c()
+for(i in a){
+  if(i<13){
+    val =c(val,i)
+  }
+}
+pos = match(val,a)
+print("result  for Q5.e : ")
+
+print("Here is the position of elements in a that are less than 13")
+pos
+
+# Q5.f
+val =c()
+for(i in d){
+  if(i<10){
+    val =c(val,i)
+  }
+}
+pos = match(val,d)
+res=c()
+pos
+for (p in pos) {
+  res =c(res,a[p])
+  
+}
+print("result  for Q5.f : ")
+
+res
+```
+### Q6. (15 Marks) Read the dataset sample500.csv from the course website: it contains a sample of 500 state houses in a dataset provided by Motu Public 
+
+```{r,echo=TRUE,error=TRUE}
+stateh <-read.csv(file="sample500.csv")
+#Q6.a
+dimension = dim(stateh)
+print("The dimenson of the dataset is : ")
+dimension
+```
+
+```{r}
+#Q6.b
+stateh <-read.csv(file="sample500.csv")
+tky = stateh$takeover_year
+hist(stateh$takeover_year, xlab = "TakeOverYear",ylab="number of houses", main = "Number of properties accuired by nz goverment over years", col= "green")
+
+```
+
+```{r}
+stateh <-read.csv(file="sample500.csv")
+#Q6.c
+print("Here is how many properties sold to private owner")
+print(sum(!is.na(stateh$settled_year)))
+```
+
+
+```{r}
+#Q6.d
+stateh <-read.csv(file="sample500.csv")
+x =1920:2009
+y =1920:2009
+plot(stateh$prop_cnstr_date,stateh$takeover_year,main = "Property Construction year VS goverment accuire year", xlab="Construction year", ylab = "Accuire Year" ,pch=16)
+lines(x,y,col="green")
+```
+#### From the linearly increasing line, we can see most of the properties acuired by NZ govement in the same year of property construction (the green line shows the y=x function, x in the range(1920,2009)). And the horizontal line in the graph shows that there is a lot of buildings are acuired by NZ goverment around 1985. These properties have the construction date from year 1940 to around 1993. And also around 2000, lots of properties are acuired by NZ goverment.
+
+```{r}
+#Q6.e
+df <-read.csv(file="sample500.csv")
+df$settled_year[!is.na(df$settled_year)] <-20
+df$settled_year[is.na(df$settled_year)] <- 1
+
+plot(df$prop_cnstr_date,df$takeover_year, main = "Property Construction year VS goverment accuire Year", xlab="Construction year", ylab = "Accuire Year", pch=pmin(df$settled_year,16), col=pmin(df$settled_year)*3)
+
+legend(x="bottomright", legend=c("sold", "notSold"),
+       col=c("blue", "green"),  cex=0.8, pch = c(16,1))
+
+
+```
+
+
+
+```{r}
+# Q6.f
+stateh <-read.csv(file="sample500.csv")
+barplot(table(stateh$property_type), cex.names = 0.5, las=2, col = rainbow(8),main = "Number of properties over different type", xlab ="Type of the property", ylab="Number")
+```
+```{r}
+#Q6.g
+df <-read.csv(file="sample500.csv")
+soldYears = df$settled_year
+res = soldYears - df$prop_cnstr_date
+
+df$age_at_sale = res
+findMin<-df
+findMin$age_at_sale[is.na(findMin$age_at_sale)] <- 1000
+print("The minimum number of years for a house sold after consturction is" )
+min(findMin$age_at_sale)
+print("The average number of years for a house sold after consturction is" )
+mean(res, trim=0, na.rm = TRUE)
+print("The median number of years for a house sold after consturction is" )
+median(res, trim=0, na.rm = TRUE)
+print("The Lower Quartile of number of years for a house sold after consturction is" )
+quantile(res, trim=0, na.rm = TRUE,0.25)
+print("The Upper Quartile of number of years for a house sold after consturction is" )
+quantile(res, trim=0, na.rm = TRUE,0.75)
+print("The Maximum number of years for a house sold after consturction is" )
+max(res, trim=0, na.rm = TRUE)
+#quantile()
+#stateh #just check if it inserted correctly
+
+
+```
+
+```{r}
+#Q6.h
+n=nrow(stateh)
+table(stateh$property_type)
+tab.tpe = table(stateh$property_type)
+print("now change the values into percentage in the table")
+perc.tpe = 100*tab.tpe/n
+perc.tpe
+```
+```{r}
+#Q6.i
+stateh <-read.csv(file="sample500.csv")
+min=3000
+max=-1
+for (i in stateh$prop_cnstr_date) {
+  if(!is.na(i)){
+    if(i<min){min=i}
+    if(i>max){max=i}
+  }
+}
+print("The type of the oldest house is : ")
+stateh[which(stateh$prop_cnstr_date ==min),]$property_type
+print("The type of the youngest house is : ")
+stateh[which(stateh$prop_cnstr_date ==max),]$property_type
+
+```
+
+### Q7. (7 Marks) In statistics we often want to convert observations y1,…,yn into their standardised equivalents
+
+```{r, echo=TRUE, error=TRUE}
+#Q7.a
+standardise <- function(y){
+  z <- (y-mean(y))/sd(y)
+  return (z)
+}
+
+data = c(2,6,4,3,7,7,16,5,3,1)
+res = standardise(data)
+mean(res)
+sd(res)
+data=c(1,5,3)
+
+```
+#### From the result, we can see the mean value of the standardised vector is very close to zero. And the standard deviation of the output is 1 which confirms the function is corret.
+
+```{r}
+#Q7.b
+standardise2 <-function(y, remove=FALSE){
+    if(remove){
+      cleaning = y[!is.na(y)]
+      return (standardise(cleaning))
+    }
+    return (standardise(y))
+}
+## Remove the NA value by the modified function 
+data=c(1,5,3,NA)
+res = standardise2(data,TRUE)
+res
+print("mean :")
+mean(res)
+print("sd")
+sd(res)
+
+
+## Without Remove 
+data=c(1,5,3,NA)
+resWithoutRemove = standardise2(data)
+print("Without Remove the missing data using the function in question a")
+resWithoutRemove
+print("mean :")
+mean(resWithoutRemove)
+print("sd")
+sd(res)
+
+
+
+```
+
+```{r}
+#Q7.c
+standardise3 <-function(y){
+  if (length(y)<=1){
+    return (NA)
+  }
+  else{
+    return (standardise2(y,TRUE))
+  }
+}
+data=c(1)
+res = standardise3(data)
+res
+print("mean :")
+mean(res)
+print("sd")
+sd(res)
+
+
+data=c(NA)
+res = standardise3(data)
+res
+print("mean :")
+mean(res)
+print("sd")
+sd(res)
+
+
+data=c(1,2,NA)
+res = standardise3(data)
+res
+print("mean :")
+mean(res)
+print("sd")
+sd(res)
+
+
+```
+
+```{r,error=TRUE}
+#Q7.d
+
+standardise4 <-function(y){
+  cleaned= y[!is.na(y)]
+  res = standardise3(cleaned) # using the previous function and check the value it return
+  if(any(is.na(res))){
+       message( "After remove NA, only one element left in the vector ")
+    opt <- options(show.error.messages=FALSE)
+    on.exit(options(opt))
+    stop()
+  }
+  else{
+    return (res)
+  }
+}
+
+
+data =c(1,NA,3)
+res = standardise4(data)
+res
+print("mean :")
+mean(res)
+print("sd")
+sd(res)
+
+
+data1 =c(1,NA)
+res1 = standardise4(data1)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

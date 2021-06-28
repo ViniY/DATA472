@@ -1,0 +1,4 @@
+"0","qmarks <- 17"
+"0","qnum <- qnum + 1"
+"0","marks <- marks + qmarks"
+"0","qstr <- sprintf(""Q%d. (%d %s)"", qnum, qmarks, ifelse(qmarks == 1,""Mark"", ""Marks""))"

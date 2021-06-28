@@ -1,0 +1,249 @@
+---
+title: "Project_DataPreprossing"
+author: "Vincent Yu 300390526"
+date: "4/19/2021"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error = TRUE)
+```
+```{r}
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+
+```
+
+
+Read the dataset 
+```{r, echo=TRUE,error=TRUE}
+df = read.csv("gun-violence-data_01-2013_03-2018.csv")
+```
+
+
+
+```{r}
+#head(df)
+summary(df)
+```
+Missing values
+```{r}
+any(is.na(df))
+colnames(df[colSums(is.na(df))>0])
+```
+```{r}
+df1 = df
+df2 = df1 %>% filter(!is.na(latitude))
+```
+
+```{r}
+any(is.na(df2))
+colnames(df[colSums(is.na(df2))>0])
+```
+
+```{r}
+gun <- as_tibble(read.csv("gun-violence-data_01-2013_03-2018.csv"))
+gun = gun %>% filter(!is.na(latitude))
+
+```
+
+```{r}
+glimpse(gun)
+cat(" The missing columns are : \n")
+colnames(gun[colSums(is.na(gun))>0])
+
+```
+
+
+
+```{r}
+gun$date =  ymd(gun$date)
+str(gun$date)
+gun$year <- year(gun$date) #extract year from date using the lubridate year() function
+
+
+```
+```{r}
+states = unique(gun$state)
+states = as.character(states)
+states = sort(states)
+states
+```
+
+
+
+
+```{r}
+gun %>%
+        ggplot(aes(x=as.factor(year))) + geom_bar(stat='count', fill='red') +
+        geom_label(stat = "count", aes(label = ..count.., y = ..count..))
+```
+
+
+```{r}
+gun$quarter <- quarter(gun$date) #extract Quarters from date
+
+q1 <- gun %>% filter(year!=2013) %>% select(year, quarter) %>% group_by(year) %>% count(quarter) %>%
+        ggplot(aes(x=as.factor(quarter), y=n)) + geom_bar(stat='identity', fill='red') +
+         facet_grid(.~year) + labs(x='Quarter', y='Number of incidents')
+q1
+
+q2 <- gun %>% filter(year!=2013 & quarter==1) %>% select(year, quarter) %>%
+        group_by(year) %>% count(quarter) %>%
+        ggplot(aes(x=as.factor(year), y=n)) + geom_bar(stat='identity', fill='red') +
+        labs(x='Incidents in Q1 of each year', y='Number of incidents')
+
+q2
+```
+```{r}
+gun$month <- month(gun$date, label=TRUE)
+```
+```{r}
+gdp <- as_tibble(read.csv("bea-gdp-by-state.csv"))
+gdp<- gdp %>% rename(state = Area)
+summary(gdp)
+
+```
+
+
+```{r}
+library(data.table)
+
+```
+
+
+
+```{r}
+head(gdp,50)
+any(is.na(gdp))
+colnames(df[colSums(is.na(gdp))>0])
+
+
+
+```
+Select gun data from 2013-2017 
+```{r}
+gun_2013_2017 = gun%>% filter(year!=2018) 
+
+```
+
+Build columns contain gdp and state
+```{r}
+gdp<- gdp%>% filter(state %in% unique(gun_2013_2017$state))
+gdp_2013 = gdp %>% select(state,X2013) 
+gdp_2013 =  gdp_2013 %>% filter( state!= "United States")
+
+
+gdp_2014 = gdp %>% select(state,X2014)                   
+gdp_2014 = gdp_2014 %>% filter( state!= "United States")
+
+gdp_2015 = gdp %>% select(state,X2015)
+gdp_2015 = gdp_2015 %>% filter( state!= "United States")
+
+gdp_2016 = gdp %>% select(state,X2016)
+gdp_2016 = gdp_2016 %>% filter( state!= "United States")
+
+gdp_2017 = gdp %>% select(state,X2017)
+gdp_2017 = gdp_2017 %>% filter( state!= "United States")
+
+gdp_2017
+```
+
+
+
+```{r}
+ss = (gdp_2013$Area)
+x = ss[!(ss %in% unique(gun_2013_2017$state))]
+x
+```
+
+```{r}
+gun_2013_2017_year = gun_2013_2017
+
+
+gun_2013_2017_year[,"year"] = format(gun_2013_2017_year$date, format= "%Y")
+gun_2013_2017_year
+
+```
+
+
+```{r}
+#merged.2013 = merge(gun_2013_2017_year,gdp_2013, by=c(year,state))
+
+
+gdp_2013_year =gdp_2013 %>% rename(gdp = X2013)
+gdp_2013_year['year'] = 2013
+gdp_2014_year =gdp_2014 %>% rename(gdp = X2014)
+gdp_2014_year['year'] = 2014
+gdp_2015_year =gdp_2015 %>% rename(gdp = X2015)
+gdp_2015_year['year'] = 2015
+gdp_2016_year =gdp_2016 %>% rename(gdp = X2016)
+gdp_2016_year['year'] = 2016
+gdp_2017_year =gdp_2017 %>% rename(gdp = X2017)
+gdp_2017_year['year'] = 2017
+
+
+merged.2013 = merge(gdp_2013_year,gun_2013_2017_year, by = c("year","state"))
+merged.2014 = merge(gdp_2014_year,gun_2013_2017_year, by = c("year","state"))
+merged.2015 = merge(gdp_2015_year,gun_2013_2017_year, by = c("year","state"))
+merged.2016 = merge(gdp_2016_year,gun_2013_2017_year, by = c("year","state"))
+merged.2017 = merge(gdp_2017_year,gun_2013_2017_year, by = c("year","state"))
+
+merged.2017
+#gun_2013_2017_year
+#gdp_2013_year
+```
+
+```{r}
+merged = rbind(merged.2013,merged.2014)
+merged = rbind(merged,merged.2015)
+merged = rbind(merged,merged.2016)
+merged = rbind(merged,merged.2017)
+
+
+```
+```{r}
+head(merged)
+colnames(merged)
+```
+
+
+
+Further clean the dataset by removing unrelated columns
+
+```{r}
+merged = merged%>% select(year,state,gdp,date,city_or_county,n_killed,n_injured, gun_stolen,gun_type,latitude,longitude,participant_gender,participant_age, participant_age_group, participant_relationship, participant_status)
+head(merged)
+```
+
+
+```{r}
+unemployment <- as_tibble(read.csv("Local_Area_Unemployment_Statistics__Beginning_1976.csv"))
+unemployment<-unemployment %>% filter(2012<Year & Year <2018 )
+unemployment
+```
+```{r}
+unemployment_grouped = unemployment %>% 
+                      group_by(Area,Year) %>%
+                        mutate(Unemployment.Rate = mean(Unemployment.Rate))
+
+unemployment_grouped = unemployment_grouped %>% select(-Month)
+
+unemployment_grouped = #unemployment_grouped %>%
+                         unique(unemployment_grouped[,c("Year","Area","Unemployment.Rate")])
+
+
+unemployment_grouped
+
+```
+
+```{r}
+unique(unemployment_grouped$Area)
+
+
+```
+
+
+

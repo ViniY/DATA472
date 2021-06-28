@@ -1,0 +1,6 @@
+"0","ss = (gdp_2013$Area)"
+"2","Unknown or uninitialised column: `Area`."
+"0","x = ss[!(ss %in% unique(gun_2013_2017$state))]"
+"0","x"
+"1","NULL
+"

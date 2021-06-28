@@ -1,0 +1,7 @@
+"0","vehicles.lowerhutt = vehicles[grepl(pattern =""LOWER HUTT"", vehicles$TLA),]"
+"0","vehicles.lowerhutt.manual = vehicles.lowerhutt[grepl(pattern = ""MANUAL"", vehicles.lowerhutt$TRANSMISSION_TYPE),]"
+"0","nrow(vehicles.lowerhutt.manual)"
+"1","[1]"
+"1"," 9"
+"1","
+"

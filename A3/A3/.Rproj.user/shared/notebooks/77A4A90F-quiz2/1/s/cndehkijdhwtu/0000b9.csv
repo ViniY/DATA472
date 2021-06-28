@@ -1,0 +1,3 @@
+"0","library(dplyr)"
+"0","chess = read.csv(""chess_data.csv"")"
+"0","head(chess,4)"

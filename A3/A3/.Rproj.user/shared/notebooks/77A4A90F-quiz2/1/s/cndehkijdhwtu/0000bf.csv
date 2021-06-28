@@ -1,0 +1,4 @@
+"0","q5dplyr = chess %>%"
+"0","          filter( chess$white_rating>=2000 & chess$black_rating >=2000) %>%"
+"0","          select(match_outcome = victory_status, winner, black_rating, white_rating )"
+"0","q5dplyr"

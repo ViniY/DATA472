@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1620209472566.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "9C6578D3",
+    "lastKnownWriteTime" : 1620607564,
+    "last_content_update" : 1620607564170,
+    "path" : "~/Desktop/2021T1/DATA472/Assignments/A3/assignment3.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "212,0",
+        "last_setup_crc32" : "",
+        "scrollLine" : "191"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

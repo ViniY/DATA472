@@ -1,0 +1,2 @@
+"0","merged = merged%>% select(year,state,gdp,date,city_or_county,n_killed,n_injured, gun_stolen,gun_type,latitude,longitude,participant_gender,participant_age, participant_age_group, participant_relationship, participant_status)"
+"0","head(merged)"

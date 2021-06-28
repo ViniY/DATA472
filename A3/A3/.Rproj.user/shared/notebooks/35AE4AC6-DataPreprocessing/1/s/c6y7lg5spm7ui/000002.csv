@@ -1,0 +1,2 @@
+"0","df1 = df"
+"0","df2 = df1 %>% filter(!is.na(latitude))"

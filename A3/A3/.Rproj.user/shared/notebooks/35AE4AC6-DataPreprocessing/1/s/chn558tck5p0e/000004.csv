@@ -1,0 +1,5 @@
+"0","q2 <- gun %>% filter(year!=2013 & quarter==1) %>% select(year, quarter) %>%"
+"0","        group_by(year) %>% count(quarter) %>%"
+"0","        ggplot(aes(x=as.factor(year), y=n)) + geom_bar(stat='identity', fill='red') +"
+"0","        labs(x='Incidents in Q1 of each year', y='Number of incidents')"
+"0","q2"

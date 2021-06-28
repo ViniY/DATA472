@@ -1,0 +1,49 @@
+"0","glimpse(gun)"
+"1","Rows: 231,754"
+"1","
+"
+"1","Columns: 29"
+"1","
+"
+"1","$ incident_id                 [3m[38;5;246m<int>[39m[23m 461105, 460726, 478855, 478925, 478959, 478948, 479363, 479374, 479389, 492151, 491674, 479413, 479561, 47…
+$ date                        [3m[38;5;246m<fct>[39m[23m 2013-01-01, 2013-01-01, 2013-01-01, 2013-01-05, 2013-01-07, 2013-01-07, 2013-01-19, 2013-01-21, 2013-01-21…
+$ state                       [3m[38;5;246m<fct>[39m[23m Pennsylvania, California, Ohio, Colorado, North Carolina, Oklahoma, New Mexico, Louisiana, California, Mar…
+$ city_or_county              [3m[38;5;246m<fct>[39m[23m Mckeesport, Hawthorne, Lorain, Aurora, Greensboro, Tulsa, Albuquerque, New Orleans, Brentwood, Baltimore, …
+$ address                     [3m[38;5;246m<fct>[39m[23m ""1506 Versailles Avenue and Coursin Street"", ""13500 block of Cerise Avenue"", ""1776 East 28th Street"", ""160…
+$ n_killed                    [3m[38;5;246m<int>[39m[23m 0, 1, 1, 4, 2, 4, 5, 0, 0, 1, 1, 1, 2, 0, 1, 0, 1, 0, 0, 1, 3, 4, 4, 1, 0, 0, 0, 1, 2, 0, 1, 1, 2, 0, 0, 2…
+$ n_injured                   [3m[38;5;246m<int>[39m[23m 4, 3, 3, 0, 2, 0, 0, 5, 4, 6, 3, 3, 3, 5, 3, 5, 3, 4, 4, 4, 2, 1, 3, 3, 4, 4, 8, 3, 2, 4, 3, 3, 2, 5, 13, …
+$ incident_url                [3m[38;5;246m<fct>[39m[23m http://www.gunviolencearchive.org/incident/461105, http://www.gunviolencearchive.org/incident/460726, http…
+$ source_url                  [3m[38;5;246m<fct>[39m[23m ""http://www.post-gazette.com/local/south/2013/01/17/Man-arrested-in-New-Year-s-Eve-shooting-in-McKeesport/…
+$ incident_url_fields_missing [3m[38;5;246m<fct>[39m[23m False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, F…
+$ congressional_district      [3m[38;5;246m<int>[39m[23m 14, 43, 9, 6, 6, 1, 1, 2, 9, 7, 3, 1, 3, 1, 8, 9, 3, 2, 2, 5, 1, 4, 46, 1, 3, 25, 2, 4, 8, 5, 16, 7, 2, 5,…
+$ gun_stolen                  [3m[38;5;246m<fct>[39m[23m , , 0::Unknown||1::Unknown, , 0::Unknown||1::Unknown, , 0::Unknown||1::Unknown, , , , 0::Unknown, 0::Unkno…
+$ gun_type                    [3m[38;5;246m<fct>[39m[23m , , 0::Unknown||1::Unknown, , 0::Handgun||1::Handgun, , 0::22 LR||1::223 Rem [AR-15], , , , 0::Unknown, 0:…
+$ incident_characteristics    [3m[38;5;246m<fct>[39m[23m ""Shot - Wounded/Injured||Mass Shooting (4+ victims injured or killed excluding the subject/suspect/perpetr…
+$ latitude                    [3m[38;5;246m<dbl>[39m[23m 40.3467, 33.9090, 41.4455, 39.6518, 36.1140, 36.2405, 34.9791, 29.9435, 37.9656, 39.2899, 35.0221, 38.7067…
+$ location_description        [3m[38;5;246m<fct>[39m[23m """", """", ""Cotton Club"", """", """", ""Fairmont Terrace"", """", """", """", """", """", """", """", """", ""Nite Owl Tavern"", ""Clu…
+$ longitude                   [3m[38;5;246m<dbl>[39m[23m -79.8559, -118.3330, -82.1377, -104.8020, -79.9569, -95.9768, -106.7160, -90.0836, -121.7180, -76.6412, -8…
+$ n_guns_involved             [3m[38;5;246m<int>[39m[23m NA, NA, 2, NA, 2, NA, 2, NA, NA, NA, 1, 1, 1, 1, NA, 1, 1, NA, 1, NA, 1, NA, 1, NA, NA, NA, NA, NA, 1, NA,…
+$ notes                       [3m[38;5;246m<fct>[39m[23m ""Julian Sims under investigation: Four Shot and Injured"", ""Four Shot; One Killed; Unidentified shooter in …
+$ participant_age             [3m[38;5;246m<fct>[39m[23m 0::20, 0::20, 0::25||1::31||2::33||3::34||4::33, 0::29||1::33||2::56||3::33, 0::18||1::46||2::14||3::47, 0…
+$ participant_age_group       [3m[38;5;246m<fct>[39m[23m 0::Adult 18+||1::Adult 18+||2::Adult 18+||3::Adult 18+||4::Adult 18+, 0::Adult 18+||1::Adult 18+||2::Adult…
+$ participant_gender          [3m[38;5;246m<fct>[39m[23m ""0::Male||1::Male||3::Male||4::Female"", ""0::Male"", ""0::Male||1::Male||2::Male||3::Male||4::Male"", ""0::Fema…
+$ participant_name            [3m[38;5;246m<fct>[39m[23m ""0::Julian Sims"", ""0::Bernard Gillis"", ""0::Damien Bell||1::Desmen Noble||2::Herman Seagers||3::Ladd Tate S…
+$ participant_relationship    [3m[38;5;246m<fct>[39m[23m , , , , 3::Family, , 5::Family, , , , , , , , , , 4::Drive by - Random victims||5::Drive by - Random victi…
+$ participant_status          [3m[38;5;246m<fct>[39m[23m ""0::Arrested||1::Injured||2::Injured||3::Injured||4::Injured"", ""0::Killed||1::Injured||2::Injured||3::Inju…
+$ participant_type            [3m[38;5;246m<fct>[39m[23m 0::Victim||1::Victim||2::Victim||3::Victim||4::Subject-Suspect, 0::Victim||1::Victim||2::Victim||3::Victim…
+$ sources                     [3m[38;5;246m<fct>[39m[23m ""http://pittsburgh.cbslocal.com/2013/01/01/4-people-shot-in-mckeesport/||http://www.wtae.com/news/local/al…
+$ state_house_district        [3m[38;5;246m<int>[39m[23m NA, 62, 56, 40, 62, 72, 10, 93, 11, NA, 28, 76, 50, NA, 79, 84, 3, 25, 93, 14, 2, 44, 72, 77, 76, 36, 142,…
+$ state_senate_district       [3m[38;5;246m<int>[39m[23m NA, 35, 13, 28, 27, 11, 14, 5, 7, 44, 10, 4, 21, NA, 10, 33, 4, 13, 4, 3, 3, 8, 34, 34, 29, 21, 26, 39, 11…"
+"1","
+"
+"0","cat("" The missing columns are : \n"")"
+"1"," The missing columns are : 
+"
+"0","colnames(gun[colSums(is.na(gun))>0])"
+"1","[1]"
+"1"," ""congressional_district"""
+"1"," ""n_guns_involved""       "
+"1"," ""state_house_district""  "
+"1"," ""state_senate_district"" "
+"1","
+"

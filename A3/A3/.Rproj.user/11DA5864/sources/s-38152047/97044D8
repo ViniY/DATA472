@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1621472562347.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "97044D8",
+    "lastKnownWriteTime" : 1621763097,
+    "last_content_update" : 1621763097287,
+    "path" : "~/Desktop/2021T1/DATA472/Assignments/Project/472Project/app.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "6,0",
+        "scrollLine" : "1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

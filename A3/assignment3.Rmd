@@ -1,0 +1,255 @@
+---
+title: "DATA202/DATA472 Assignment 3"
+author: "Vincent Yu, 300390526"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Assignment Questions   
+
+```{r include = FALSE}
+marks <- 0
+qnum <- 0
+```
+
+```{r include = FALSE}
+qmarks <- 14
+qnum <- qnum + 1
+marks <- marks + qmarks
+qstr <- sprintf("Q%d. (%d %s)", qnum, qmarks, ifelse(qmarks == 1,"Mark", "Marks"))
+```
+
+**`r qstr`**
+
+Answer the following questions using the `Motor_Vehicles.csv` dataset. You can use either the `dplyr` library **OR** the base `R` functions. (You do not need to show both methods.  Just choose one.)
+
+Read the file into `R`. If you using `dplyr`, also convert the data frame to a tibble.
+```{r}
+library(dplyr)
+```
+
+
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+vehicles <- read.csv("Motor_Vehicles.csv", stringsAsFactors = FALSE)
+vehicles <- as_tibble(vehicles) # Only if using "dplyr".
+str(vehicles)
+#names(vehicles)
+```
+
+a. Find the number of vehicles registered in Lower Hutt that have manual transmission.  (The `grepl` function may prove useful.) [3 marks]
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+vehicles.lowerhutt = vehicles[grepl(pattern ="LOWER HUTT", vehicles$TLA),]
+vehicles.lowerhutt.manual = vehicles.lowerhutt[grepl(pattern = "MANUAL", vehicles.lowerhutt$TRANSMISSION_TYPE),]
+nrow(vehicles.lowerhutt.manual)
+```
+
+b. Find out how many grey or blue vehicles have been imported from Germany and registered in New Zealand before 2007. [3 marks]
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+vehicles.color = filter(vehicles, vehicles$BASIC_COLOUR %in% c("GREY","BLUE")) 
+vehicles.color.german = filter(vehicles.color, vehicles.color$ORIGINAL_COUNTRY =="GERMANY") 
+vehicles.color.german.2007 = filter(vehicles.color.german, FIRST_NZ_REGISTRATION_YEAR < 2007)
+result = nrow(vehicles.color.german.2007)
+result
+```
+
+c. Produce a table summarising all the different Mazda models in the dataset with gross vehicle mass that is greater than 0. Give the model name, mean gross vehicle mass, and the earliest and latest vehicle year for each model. [5 marks]
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+vehicles.mazda.grossMass = filter(vehicles, vehicles$MAKE =="MAZDA", vehicles$GROSS_VEHICLE_MASS >0)
+vehicles.mazda.grossMass.model = group_by(vehicles.mazda.grossMass, vehicles.mazda.grossMass$MODEL)
+summarise(vehicles.mazda.grossMass.model, Mean_gross_mass = mean(GROSS_VEHICLE_MASS), earliest= min(VEHICLE_YEAR), latest=max(VEHICLE_YEAR))
+```
+
+d. Produce a contingency table giving the number of vehicles for every combination of make and power type (`MOTIVE_POWER`). Restrict the table to the 10 makes with the most vehicles using diesel power, and show the power types for those makes. [3 marks]
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+
+make_power.table = table(vehicles$MAKE, vehicles$MOTIVE_POWER)
+make_power.table.top = order(make_power.table[, "DIESEL"], decreasing = TRUE)
+make_power.table.top10 = make_power.table.top[1:10]
+make_power.table[make_power.table.top10,]                  
+result = make_power.table[make_power.table.top10,]     # the result stored in result table
+
+```
+
+
+
+
+```{r include = FALSE}
+qmarks <- 17
+qnum <- qnum + 1
+marks <- marks + qmarks
+qstr <- sprintf("Q%d. (%d %s)", qnum, qmarks, ifelse(qmarks == 1,"Mark", "Marks"))
+```
+
+**`r qstr`**
+
+Answer the following questions using the `Food_Prices.csv` dataset.
+
+Read the file into `R`.
+
+
+
+a. Reduce the dataset to only items (`Item`) measured in mililitres ("ml"), and check this by displaying a list of the first 10 unique item names in the reduced dataset. [2 marks]
+
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+food_prices <- read.csv("Food_Prices.csv", stringsAsFactors = FALSE)
+food_prices <- as_tibble(food_prices) # Only if using "dplyr".
+str(food_prices)
+
+```
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+food_prices.reduced = food_prices[grepl(pattern = "ml", food_prices$Item),]
+unique(food_prices.reduced$Item)
+```
+
+b. Make a new data frame/tibble from the reduced dataset (produced in part (a)) that contains only prices for the month of December.  Output the tail of this data frame/tibble [1 mark]
+
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+food_prices.reduced.December = filter(food_prices.reduced, Month=="December")
+tail(food_prices.reduced.December)
+```
+
+c. Create a table that gives the median price of all the items measured in mililitres for the month of December **for each year**.  (You may make use of the data frame/tibble you created in part (b).)  Display the table, and store that table as a new tibble/data frame. Note that you do not need to convert the prices into dollar prices (i.e., attach a '\$' to the front of the number).  Just display them as numbers. [2 marks]
+
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+fp.reduced.Dec.median = food_prices.reduced.December %>% 
+                        group_by(Year)%>% # group by year
+                        summarise(Median_Value=median(Data_value, na.rm= TRUE)) # use median to cal the median 
+
+print(fp.reduced.Dec.median, n=nrow(fp.reduced.Dec.median))
+
+
+```
+
+d. Use the table you just created to produce a line plot of median price by year, using the `ggplot` function. Be sure to provide an informative title and axis labels for the line plot. [3 marks]
+
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+library(ggplot2)
+```
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+ggplot(fp.reduced.Dec.median, aes(x=Year, y= Median_Value)) + geom_line() +geom_point()
+  
+```
+
+e. Go back to the reduced dataset of items measured in mililitres (produced in part (a)). Reduce it to just the 2012 data. [1 mark]
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+fp.2012 = filter(food_prices.reduced, Year==2012)
+fp.2012
+```
+
+f. Select three of the items measured in mililitres in 2012. Again using `ggplot`, plot a bar chart showing prices for these items for each month side-by-side and in different colours. Be sure to provide an informative title and axis labels for the bar chart, and use a colourblind-friendly palette.
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+distinct(fp.2012, Item)
+```
+
+For this question, I chose Bottled water, Cream and Soft drinks. 
+```{r  echo=TRUE,error=TRUE, eval=TRUE, include= TRUE}
+fp.threeItem = fp.2012 %>% 
+                filter(Item %in% c(
+                  "Bottled water, 750ml",
+                  "Cream, 300ml - Cheapest Available",
+                  "Soft drinks, 600ml"))
+graph = ggplot(fp.threeItem, aes(x=fp.threeItem$Month_num, y = fp.threeItem$Data_value, fill = Item)) + geom_bar(stat = "identity") + labs(x = "Month", y = "Price of Item") + scale_x_continuous(breaks=1:12,labels=c(unique(fp.threeItem$Month)))+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+graph
+
+```
+
+    Be sure that the months are in the correct order.  (You may need to set `Month` to be a factor with the right order of levels.)  Also be sure that the month labels are not overlapping in the visual display. [8 marks]
+
+```{r include = FALSE}
+qmarks <- 9
+qnum <- qnum + 1
+marks <- marks + qmarks
+qstr <- sprintf("Q%d. (%d %s)", qnum, qmarks, ifelse(qmarks == 1,"Mark", "Marks"))
+```
+
+
+
+**`r qstr`**
+
+Copy the following code into your RMarkdown answers file. This code defines a function and then executes that function. Comments provided in the function explain what specific lines of code are meant to do.
+
+Run the code.  It should exit with an error. Use the `browser` command or the `R` option `options(error = recover)` to debug the function and find the three mistakes in it. The mistakes may include code that is incorrect, code that needs to be removed, or code that is missing.
+
+If the 'Stop' button does not close browser mode, go to the console and use the `Esc` key to escape from browser mode.
+
+For each of the three mistakes, write a comment in your RMarkdown file explaining where you think the bug is and why (2 marks for each bug) and change the code to fix the bug (1 mark for each bug).  Partial credit will be given for incomplete answers.
+
+```{r ,error=TRUE}
+#options(error = recover)
+summarise_vehicles <- function(vehicle_df, region, type, max_axles, earliest_year = min(vehicles$VEHICLE_YEAR))
+{
+    # Ensure that the "dplyr" package is loaded.
+    require(dplyr)
+  
+    # Check to see if the supplied data frame has variables with names matching those to be used in the function
+    if(!all(c("TLA", "VEHICLE_TYPE", "NUMBER_OF_AXLES", "VEHICLE_YEAR", "BASIC_COLOUR", "BODY_TYPE", "MODEL", "MAKE", "CC_RATING", "GROSS_VEHICLE_MASS") %in% names(vehicle_df)))
+    
+      stop("The supplied data frame does not contain all variables required for this function to execute correctly.")
+  
+    # Check to see if the values for "region" and "type" are valid geographic regions and vehicle types
+    if(!(region %in% unique(vehicle_df$TLA)))
+        stop(paste(region, "is not in the list of TLAs (regions) in the dataset."))
+    if(!(type %in% unique(vehicle_df$VEHICLE_TYPE)))
+        stop(paste(type, "is not in the list of vehicle types in the dataset."))
+    
+    # Restrict to vehicles from the specified region, of the specified vehicle type, with no more axles than the specified maximum number of axles, and for years starting in the earliest specified year.  Add a new variable that records the decade corresponding to the entry.
+    vehicles_sub <- filter(vehicle_df, TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <= max_axles, NUMBER_OF_CYLINDERS > 3, VEHICLE_YEAR >= earliest_year) %>% mutate(VEHICLE_DECADE = floor(VEHICLE_YEAR / 10) * 10)
+    
+    # Restrict to only vehicles that have positive gross vehicle mass.
+    vehicles_sub <- filter(vehicles_sub, GROSS_VEHICLE_MASS < 0)
+    
+    # Group by make and decade, sorting by vehicle decade, and only include car colour, body type, model, make, decade CC rating, and gross vehicle mass.
+    vehicles_sub <- group_by(vehicles_sub, MAKE, VEHICLE_DECADE) %>% arrange(VEHICLE_DECADE) %>% select(BASIC_COLOUR, BODY_type, MODEL, MAKE, VEHICLE_DECADE, CC_RATING, GROSS_VEHICLE_MASS)
+    
+    result <- summarise(vehicles_sub, N = n(), Mean_CC_Rating = mean(CC_RATING))
+    
+    filter(result, N > 10)                     
+}
+
+vehicles <- as_tibble(read.csv("Motor_Vehicles.csv"))
+summarise_vehicles(vehicles, "AUCKLAND", "GOODS VAN/TRUCK/UTILITY", 4, 2000) 
+```
+From the comments " only vehicles that have positive gross vehicle mass." The original code actually try to find vehicles have negative gross vehicle mass, the orginal code is:
+```{r, include=TRUE,eval=FALSE, error= TRUE}
+#original
+vehicles_sub <- filter(vehicles_sub, GROSS_VEHICLE_MASS < 0)
+
+# fixed
+vehicles_sub <- filter(vehicles_sub, GROSS_VEHICLE_MASS > 0)
+```
+Another error is the column name "BODY_TYPE" should be all capital.The original code :
+```{r, include=TRUE,eval=FALSE, error= TRUE}
+#original:
+vehicles_sub <- group_by(vehicles_sub, MAKE, VEHICLE_DECADE) %>% arrange(VEHICLE_DECADE) %>% select(BASIC_COLOUR, BODY_type, MODEL, MAKE, VEHICLE_DECADE, CC_RATING, GROSS_VEHICLE_MASS)
+
+# the "BODY_type" should change to "BODY_TYPE"
+vehicles_sub <- group_by(vehicles_sub, MAKE, VEHICLE_DECADE) %>% arrange(VEHICLE_DECADE) %>% select(BASIC_COLOUR, BODY_TYPE, MODEL, MAKE, VEHICLE_DECADE, CC_RATING, GROSS_VEHICLE_MASS)
+```
+
+The third problem is that there is no attributes named NUMBER_OF_CYLINDERS, the number of cylinders need to be estimated by CC. In general, a 4 cylinder engine car is around 2000 cc. And a v12 is around 6000 cc. So we can divide the cc rating by 500 and around it to an integer.
+```{r, include=TRUE,eval=FALSE, error= TRUE}
+#original
+vehicles_sub <- filter(vehicle_df, TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <= max_axles, NUMBER_OF_CYLINDERS > 3, VEHICLE_YEAR >= earliest_year) %>% mutate(VEHICLE_DECADE = floor(VEHICLE_YEAR / 10) * 10)
+
+# fixed
+vehicles_sub <- vehicle_df %>%
+  mutate(NUMBER_OF_CYLINDERS= trunc(CC_RATING/500)) %>% # calculate the number of cylinders and round it to the nearest integer
+  filter(TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <= max_axles, NUMBER_OF_CYLINDERS > 3, VEHICLE_YEAR >= earliest_year) %>% mutate(VEHICLE_DECADE = floor(VEHICLE_YEAR / 10) * 10)
+
+
+# If we do not need the restriction of number of cylinders then we can simply remove it as 
+
+# fixed without restriction of number of cylinders
+vehicles_sub <- vehicle_df %>%
+  filter(TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <= max_axles, VEHICLE_YEAR >= earliest_year) %>% mutate(VEHICLE_DECADE = floor(VEHICLE_YEAR / 10) * 10)
+```
+
+
+
+
+
+
+**(Assignment total: `r marks` Marks)**

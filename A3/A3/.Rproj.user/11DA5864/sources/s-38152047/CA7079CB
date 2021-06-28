@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1620468817406.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CA7079CB",
+    "lastKnownWriteTime" : 1619011083,
+    "last_content_update" : 1619011083,
+    "path" : "~/Desktop/2021T1/DATA472/Assignments/A2/assignment2.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "4,8",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

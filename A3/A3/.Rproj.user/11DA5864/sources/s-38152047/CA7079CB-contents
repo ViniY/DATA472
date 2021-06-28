@@ -1,0 +1,232 @@
+---
+title: "A2"
+author: "Vincent Yu 300390526"
+date: "4/15/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,error = TRUE)
+```
+
+### America's Cup Q1-Q11
+```{r}
+library(DBI)
+library(RSQLite)
+
+```
+# Q1
+```{r Q1, echo=TRUE,error=TRUE}
+# Q1 
+tournaments <- read.csv(file = "ACtournaments.csv") 
+races <- read.csv(file = "ACraces.csv", stringsAsFactors = FALSE)
+results <- read.csv(file ="ACresults.csv")
+head(tournaments)
+
+head(results)
+head(races)
+```
+# Q2
+```{r Q2, echo=TRUE,error=TRUE}
+#Q2 
+races$Racedate <- as.Date(races$Date,format = "%d-%b")
+races$Racedate <-format(races$Racedate, "%m-%d")
+
+head(races)
+#any(is.na(races$Racedate))
+
+```
+# Q3
+```{r Q3, echo=TRUE,error=TRUE}
+#Q3
+minDate  = min(races$Racedate, na.rm=TRUE)
+maxDate = max(races$Racedate, na.rm=TRUE)
+days = as.Date(maxDate, format="%m-%d")- as.Date(minDate, format="%m-%d")
+cat("The first date of the race is : " ,minDate,"\n")
+cat("The last date of the race is : " ,maxDate,"\n")
+cat("The number of day in between : ", days)
+```
+# Q4
+```{r Q4, echo=TRUE,error=TRUE}
+#Q4
+fn = "AmericasCup.sqlite"
+if (file.exists(fn)){
+  file.remove(fn)
+}
+americas <- dbConnect(RSQLite::SQLite(), "AmericasCup.sqlite")
+
+
+
+```
+
+# Q5
+```{r Q5, echo=TRUE,error=TRUE}
+#Q5
+dbWriteTable(americas, "tournaments", tournaments,overwrite=TRUE)
+dbWriteTable(americas, "races", races,overwrite=TRUE)
+dbWriteTable(americas, "results", results,overwrite=TRUE)
+
+```
+
+
+# Q6 WIN
+```{sql connection = americas}
+SELECT Code,Count(*)
+FROM results
+WHERE Result ="Win"
+GROUP BY Code
+
+```
+# Q6 Loss
+```{sql connection = americas}
+SELECT Code,Count(*)
+FROM results
+WHERE Result ="Loss"
+GROUP BY Code
+```
+# Q7 
+```{sql connection = americas}
+SELECT Code,Result
+FROM results
+WHERE  Code="USA"
+```
+
+```{sql connection = americas}
+UPDATE results
+SET Result = "Loss"
+WHERE Code= "USA" and Result = "DNF";
+
+```
+```{sql connection = americas}
+SELECT Code,Result
+FROM results
+WHERE  Code="USA"
+```
+# Q8
+```{sql connection = americas}
+DROP TABLE IF EXISTS teams
+```
+
+```{sql connection = americas}
+
+CREATE TABLE teams (
+  Code char(5),
+  Country char(50),
+  TeamName char(50)
+);
+
+```
+
+```{sql connection = americas}
+INSERT INTO teams(Code,Country, TeamName)
+VALUES
+("ITA", "Italy", "Luna Rossa Prada Pirelli Team"),
+("NZ", "New Zealand", "Emirates Team New Zealand"),
+("UK", "United Kingdom", "INEOS Team UK"),
+("USA", "United States of America", "NYYC American Magic")
+;
+
+```
+```{sql connection = americas}
+SELECT * FROM teams
+```
+# Q9
+```{sql connection = americas}
+SELECT TeamName, Result
+FROM teams
+INNER JOIN results ON teams.Code = results.Code
+INNER JOIN races ON races.Race = results.Race
+WHERE Racedate = "01-23"
+```
+
+# Q10
+```{sql connection = americas}
+SELECT TeamName, TournamentName, Event, Count(Result) as countWin
+FROM teams
+INNER JOIN results ON teams.Code = results.Code
+INNER JOIN races ON races.Race = results.Race
+INNER JOIN tournaments ON tournaments.Tournament = races.Tournament
+WHERE Result = "Win"
+GROUP BY TeamName, TournamentName
+ORDER BY countWin DESC;
+```
+# Q11
+```{sql connection = americas}
+DROP TABLE IF EXISTS winner;
+```
+```{sql connection = americas}
+
+CREATE TABLE winner (
+  TeamName char(50),
+  numberRaces Integer,
+  TournamentName char(50),
+  numberWins Integer
+  Race char(5)
+);
+```
+
+```{sql connection = americas}
+INSERT INTO winner(TeamName,numberRaces,TournamentName)
+SELECT TeamName,Count(Result) as countRaces,  TournamentName
+FROM teams
+INNER JOIN results ON teams.Code = results.Code 
+INNER JOIN races ON races.Race = results.Race 
+INNER JOIN tournaments ON tournaments.Tournament = races.Tournament
+WHERE tournaments.Event = "America's Cup" AND results.Result = "Win"
+GROUP BY TeamName,TournamentName
+```
+```{sql connection = americas}
+SELECT winner.TeamName, MAX(sumRace) as NoOfWinnerRaces
+FROM winner,
+(SELECT TeamName, SUM(numberRaces) as sumRace
+From winner
+GROUP BY TeamName)
+```
+## Pride and Prejudice
+## Q12-16
+# Q12
+```{r Q12, echo=TRUE,error=TRUE}
+#Q12
+con <- file("pride-and-prejudice.txt","r", blocking= FALSE)
+mydata = readLines(con)
+length(mydata)
+```
+# Q13
+```{r Q13, echo=TRUE,error=TRUE}
+mydataClean = mydata[mydata!=""]
+print(length(mydataClean))
+```
+# Q14
+```{r Q14, echo=TRUE,error=TRUE}
+parahraphs = grep("Darcy",mydataClean)
+print(length(parahraphs))
+```
+# Q15
+```{r Q15, echo=TRUE,error=TRUE}
+parahraphs = grep("Mr. Darcy",mydataClean)
+mydataClean[parahraphs[20]]
+```
+# Q16
+```{r Q16, echo=TRUE,error=TRUE}
+counter= 0
+
+temp = unlist(strsplit(mydataClean," "))
+numbers = grep("Darcy",temp)
+length(numbers)
+
+
+```
+# Q17
+```{r Q17, echo=TRUE,error=TRUE}
+cdssationTime = "1918-11-11 11:00"
+cdssationTime = as.POSIXct(cdssationTime, tz="Europe/Paris")
+original = format(cdssationTime,tz="Europe/Paris")
+nzTime = format(cdssationTime, tz="Pacific/Auckland")
+finalResult = as.POSIXct(nzTime,tz="Pacific/Auckland") - as.difftime(30,units = "mins")
+finalResult = format(finalResult,tz="Pacific/Auckland")
+cat("The time in Europe is",original,"\n")
+cat("The time in NZ is",finalResult,"\n")
+
+
+```
+

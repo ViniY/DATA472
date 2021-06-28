@@ -1,0 +1,4 @@
+"0","fp.reduced.Dec.median = food_prices.reduced.December %>% "
+"0","                        group_by(Year)%>% # group by year"
+"0","                        summarise(Median_Value=median(Data_value, na.rm= TRUE)) # use median to cal the median "
+"0","print(fp.reduced.Dec.median, n=nrow(fp.reduced.Dec.median))"

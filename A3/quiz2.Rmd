@@ -1,0 +1,70 @@
+ ---
+title: "quiz2"
+author: "Vincent Yu 300390526"
+date: "5/6/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(dplyr)
+chess = read.csv("chess_data.csv")
+head(chess,4)
+q2base = chess[,c("victory_status", "winner", "black_rating", "white_rating")]
+q2base = rename(q2base, match_outcome = victory_status)
+q2dplyr = select(chess,match_outcome = victory_status, winner, black_rating, white_rating )
+
+
+q3base = chess[grepl(pattern = "King's Pawn Game", chess$opening_name),]
+
+q3dplyr= filter(chess, grepl("King's Pawn Game", opening_name))
+
+
+q4base = chess[(chess$white_rating>=2000 & chess$black_rating >=2000),]
+q4base
+q4dplyr = filter(chess, chess$white_rating>=2000 & chess$black_rating >=2000)
+q4dplyr
+q5dplyr = chess %>%
+          filter( chess$white_rating>=2000 & chess$black_rating >=2000) %>%
+          select(match_outcome = victory_status, winner, black_rating, white_rating )
+q5dplyr
+chess$victory_status<- factor(chess$victory_status, levels=c("mate","resign","outoftime","draw"))
+tapply(chess$turns, chess$victory_status, mean)
+chess.tib <- as_tibble(chess) # Only if using "dplyr".
+chess.tib %>%
+  group_by(victory_status) %>%
+  summarise(mean(turns))
+
+arrange(chess, victory_status, turns)
+chess[order(chess$victory_status,chess$turns),]
+```
+```{r}
+# Install the "ggplot2" package.
+install.packages("ggplot2")
+# Load the "ggplot2" package.
+
+```
+```{r}
+library(ggplot2)
+plot.settings <- ggplot(chess, aes(x = height_cm, y = weight_kg)) + labs(x = "Height (cm)", y = "Weight (kg)") + theme_classic()
+plot.settings + geom_point()
+```
+```{r}
+plot.settings <- ggplot(chess, aes(x = white_rating, y = black_rating))+ labs(x = "whiteRating", y = "black") + theme_classic()
+plot.settings + geom_point()
+```
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

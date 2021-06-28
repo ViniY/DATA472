@@ -1,0 +1,4 @@
+"0","rnbinomial = function(r,p){"
+"0","  faliures = sum( rgeometric(r,p))"
+"0","  return (faliures)"
+"0","}"

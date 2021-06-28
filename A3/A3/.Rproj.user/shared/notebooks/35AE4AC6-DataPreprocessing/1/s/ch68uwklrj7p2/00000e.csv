@@ -1,0 +1,3 @@
+"0","gun_2013_2017_year = gun_2013_2017"
+"0","gun_2013_2017_year[,""year""] = format(gun_2013_2017_year$date, format= ""%Y"")"
+"0","gun_2013_2017_year"

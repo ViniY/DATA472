@@ -1,0 +1,7 @@
+"0","unemployment_grouped = unemployment %>% "
+"0","                      group_by(Area,Year) %>%"
+"0","                        mutate(Unemployment.Rate = mean(Unemployment.Rate))"
+"0","unemployment_grouped = unemployment_grouped %>% select(-Month)"
+"0","unemployment_grouped = #unemployment_grouped %>%"
+"0","                         unique(unemployment_grouped[,c(""Year"",""Area"",""Unemployment.Rate"")])"
+"0","unemployment_grouped"

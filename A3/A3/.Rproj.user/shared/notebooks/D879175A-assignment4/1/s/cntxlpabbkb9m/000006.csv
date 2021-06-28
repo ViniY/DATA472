@@ -1,0 +1,8 @@
+"0","set.seed(0)"
+"0","n = 100000"
+"0","numbers = gameStart(n)"
+"0","probability.yahtzee = numbers/n"
+"0","cat("" The probability of getting an Yahtzee should be : "", probability.yahtzee)"
+"1"," The probability of getting an Yahtzee should be : "
+"1"," "
+"1","0.00071"

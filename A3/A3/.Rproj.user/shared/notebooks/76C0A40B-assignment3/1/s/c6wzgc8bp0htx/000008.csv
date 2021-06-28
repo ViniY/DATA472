@@ -1,0 +1,5 @@
+"0","#original"
+"0","vehicles_sub <- filter(vehicle_df, TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <= max_axles, NUMBER_OF_CYLINDERS > 3, VEHICLE_YEAR >= earliest_year) %>% mutate(VEHICLE_DECADE = floor(VEHICLE_YEAR / 10) * 10)"
+"2","Error in filter(vehicle_df, TLA == region, VEHICLE_TYPE == type, NUMBER_OF_AXLES <=  : 
+  object 'vehicle_df' not found
+"

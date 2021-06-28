@@ -1,0 +1,2 @@
+"0","food_prices.reduced.December = filter(food_prices.reduced, Month==""December"")"
+"0","tail(food_prices.reduced.December)"

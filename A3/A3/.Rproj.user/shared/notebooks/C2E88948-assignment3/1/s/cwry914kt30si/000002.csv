@@ -1,0 +1,3 @@
+"0","vehicles.mazda.grossMass = filter(vehicles, vehicles$MAKE ==""MAZDA"", vehicles$GROSS_VEHICLE_MASS >0)"
+"0","vehicles.mazda.grossMass.model = group_by(vehicles.mazda.grossMass, vehicles.mazda.grossMass$MODEL)"
+"0","summarise(vehicles.mazda.grossMass.model, Mean_gross_mass = mean(GROSS_VEHICLE_MASS), earliest= min(VEHICLE_YEAR), latest=max(VEHICLE_YEAR))"

@@ -1,0 +1,7 @@
+"0","q2base = chess[,c(""victory_status"", ""winner"", ""black_rating"", ""white_rating"")]"
+"0","q2base = rename(q2base, match_outcome = victory_status)"
+"0","q2dplyr = select(chess,match_outcome = victory_status, winner, black_rating, white_rating )"
+"0","q3base = chess[grepl(pattern = ""King's Pawn Game"", chess$opening_name),]"
+"0","q3dplyr= filter(chess, grepl(""King's Pawn Game"", opening_name))"
+"0","q4base = chess[(chess$white_rating>=2000 & chess$black_rating >=2000),]"
+"0","q4base"

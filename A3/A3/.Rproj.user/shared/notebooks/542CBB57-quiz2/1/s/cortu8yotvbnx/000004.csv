@@ -1,0 +1,4 @@
+"0","chess = read.csv(""chess_data.csv"")"
+"2","cannot open file 'chess_data.csv': No such file or directory"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"

@@ -1,0 +1,8 @@
+"0","any(is.na(gdp))"
+"1","[1]"
+"1"," FALSE"
+"1","
+"
+"0","colnames(df[colSums(is.na(gdp))>0])"
+"1","character(0)
+"

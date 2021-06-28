@@ -1,0 +1,2 @@
+"0","gun <- as_tibble(read.csv(""gun-violence-data_01-2013_03-2018.csv""))"
+"0","gun = gun %>% filter(!is.na(latitude))"
